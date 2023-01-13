@@ -43,7 +43,8 @@
                 <li>{{ store.filmList[0].original_title }}</li>
                 <li><img :src="`https://flagsapi.com/${this.getFlagCode(this.store.filmList[0].original_language)}/flat/32.png`"
                          :alt="store.filmList[0].original_language"
-                         @load="imgLoaded = true"></li>
+                         @load="imgLoaded = true">
+                </li>
                 <li>{{ store.filmList[0].vote_average }}</li>
             </ul>
         </div>
