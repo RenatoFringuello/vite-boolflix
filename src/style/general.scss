@@ -1,0 +1,25 @@
+*,
+::before,
+::after{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    background-color: black;
+    color: white;
+}
+a{
+    color: inherit;
+}
+ul{
+    list-style-type: none;
+}
+
+//classes
+.container{
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
