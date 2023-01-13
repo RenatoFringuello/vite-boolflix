@@ -1,17 +1,25 @@
 <script>
-  import AppCallComponent from './components/AppCallComponent.vue';
+  import AppMain from './components/AppMain.vue';
 
   export default{
     components:{
-      AppCallComponent,  
+      AppMain
+    },
+    data() {
+      return {
+      }
+    },
+    methods:{
+      
     }
   }
-
 </script>
 
 <template>
-  <AppCallComponent />
+  <AppMain />
 </template>
 
 <style lang="scss">
+  @use './style/general.scss' as *
+
 </style>
