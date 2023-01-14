@@ -1,10 +1,12 @@
 <script>
+  import AppHedaer from './components/AppHedaer.vue';
   import AppMain from './components/AppMain.vue';
 
   export default{
     components:{
-      AppMain
-    },
+    AppMain,
+    AppHedaer
+},
     data() {
       return {
       }
@@ -16,6 +18,7 @@
 </script>
 
 <template>
+  <AppHedaer />
   <AppMain />
 </template>
 
