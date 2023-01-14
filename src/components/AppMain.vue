@@ -5,18 +5,14 @@
         data() {
             return {
                 store,
-                searchText:'',
-                location:'movie',
-                imgLoaded : false,
             }
         },
         methods: {
-            sendResearch(location, searchText){
-                this.imgLoaded = false;
-                this.store.getData(location, searchText);
-            },
             getFlagCode(code){
                 switch(code){
+                    case 'cs':
+                        code = 'cz';
+                        break;
                     case 'en':
                         code = 'gb';
                         break;
@@ -25,28 +21,35 @@
                 }
                 return code.toUpperCase();
             }       
-        },
-        created(){
-            this.sendResearch(this.location, 'a');
         }
-        
     }
 </script>
 
 <template>
     <main>
         <div class="container">
-            <input  @keyup.enter="sendResearch(this.location, this.searchText)" type="text" v-model.trim="searchText">
-            <button @click="sendResearch(this.location, this.searchText)">Search</button>
-            <ul v-if="store.isLoaded" :class="(imgLoaded)? 'd-block' : 'd-none'">
-                <li>{{ store.filmList[0].title }}</li>
-                <li>{{ store.filmList[0].original_title }}</li>
-                <li><img :src="`https://flagsapi.com/${this.getFlagCode(this.store.filmList[0].original_language)}/flat/32.png`"
-                         :alt="store.filmList[0].original_language"
-                         @load="imgLoaded = true">
-                </li>
-                <li>{{ store.filmList[0].vote_average }}</li>
-            </ul>
+            <div class="left">
+                <ul v-for="film in store.filmData.data" v-if="store.filmData.isLoaded" :class="(store.filmData.isImgLoaded)? 'd-block' : 'd-none'">
+                    <li>{{ film.title }}</li>
+                    <li>{{ film.original_title }}</li>
+                    <li><img :src="`https://flagsapi.com/${this.getFlagCode(film.original_language)}/flat/32.png`"
+                        :alt="film.original_language"
+                        @load="store.filmData.isImgLoaded = true">
+                    </li>
+                    <li>{{ film.vote_average }}</li>
+                </ul>
+            </div>
+            <div class="right">
+                <ul v-for="tv in store.tvData.data" v-if="store.tvData.isLoaded" :class="(store.tvData.isImgLoaded)? 'd-block' : 'd-none'">
+                    <li>{{ tv.title }}</li>
+                    <li>{{ tv.original_title }}</li>
+                    <li><img :src="`https://flagsapi.com/${this.getFlagCode(tv.original_language)}/flat/32.png`"
+                        :alt="tv.original_language"
+                        @load="store.tvData.isImgLoaded = true">
+                    </li>
+                    <li>{{ tv.vote_average }}</li>
+                </ul>
+            </div>
         </div>
     </main>
 </template>
