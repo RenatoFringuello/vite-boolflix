@@ -1,14 +1,15 @@
 <script>
-  import AppHedaer from './components/AppHedaer.vue';
+  import AppHedaer from './components/AppHeader.vue';
   import AppMain from './components/AppMain.vue';
 
   export default{
     components:{
-    AppMain,
-    AppHedaer
-},
+      AppMain,
+      AppHedaer
+    },
     data() {
       return {
+        
       }
     },
     methods:{
