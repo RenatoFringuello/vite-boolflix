@@ -1,3 +1,5 @@
+@use './partials/variables' as *;
+
 *,
 ::before,
 ::after{
@@ -7,8 +9,9 @@
 }
 
 body{
-    background-color: black;
+    background-color: $netflix-bg;
     color: white;
+    font-family: Netflix Sans,Helvetica Neue,Segoe UI,Roboto,Ubuntu,sans-serif;
 }
 a{
     color: inherit;
@@ -19,9 +22,7 @@ ul{
 
 //classes
 .container{
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 1rem;
+    padding: 0 4%;
 }
 
 .d-block{
