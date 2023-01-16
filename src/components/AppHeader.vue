@@ -6,6 +6,9 @@
                 store,
                 movieToSearch:'',
                 tvToSearch:'',
+
+                activeIndex:0,
+                links:['Home','Serie TV', 'Film', 'Nuovi e popolari', 'La mia lista', 'Sfoglia per lingua'],
             }
         },
         methods: {
@@ -31,12 +34,7 @@
             <nav class="left">
                 <a href="" class="logo"></a>
                 <ul>
-                    <li class="active"><a href="#">Home</a></li>
-                    <li><a href="#">Serie TV</a></li>
-                    <li><a href="#">Film</a></li>
-                    <li><a href="#">Nuovi e popolari</a></li>
-                    <li><a href="#">La mia lista</a></li>
-                    <li><a href="#">Sfoglia per lingua</a></li>
+                    <li v-for="link,i in links" :class="activeIndex === i? 'active': ''">{{link}}</li>
                 </ul>
             </nav>
             <nav class="right">
@@ -99,7 +97,7 @@
                         &.active{
                             font-weight: 500;
                         }
-                        &:not(.active) a{
+                        &:not(.active){
                             transition: all .5s;
                             opacity: 1;
                             &:hover{
