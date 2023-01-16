@@ -5,7 +5,6 @@
         data() {
             return {
                 store,
-                //size = /w342/ per esempio
             }
         },
         methods: {
@@ -28,7 +27,30 @@
                         break;
                 }
                 return code.toUpperCase();
-            }       
+            },
+            getStars(vote){
+                vote /= 2;
+                const stars =[];
+                for (let i = 0; i < 5; i++) {
+                    if(vote < 0.8){
+                        //not full active
+                        if(vote >= 0.3 ){
+                            // 100% half
+                            stars.push(0.5);
+                        }
+                        else{
+                            // 100% disabled
+                            stars.push(0);
+                        }
+                    }
+                    else{
+                        //100% active
+                        stars.push(1);
+                    }
+                    vote --;
+                }
+                return stars;
+            }
         },
         created() {
             this.store.getData('configuration', '');
@@ -52,7 +74,10 @@
                         :alt="film.original_language"
                         @load="store.filmData.isImgLoaded = true">
                     </li>
-                    <li>{{ film.vote_average }}</li>
+                    <li class="rate-container">
+                        <div v-for="star in getStars(film.vote_average)" class="star" :class= "(star=== 0.5)?'half':(star === 0)?'disabled':'' "></div>
+                        {{ film.vote_average }}
+                    </li>
                 </ul>
             </div>
             <div class="right">
@@ -68,7 +93,10 @@
                         :alt="this.getFlagCode(tv.original_language)"
                         @load="store.tvData.isImgLoaded = true">
                     </li>
-                    <li>{{ tv.vote_average }}</li>
+                    <li class="rate-container">
+                        <div v-for="star in getStars(tv.vote_average)" class="star" :class= "(star=== 0.5)?'half':(star === 0)?'disabled':'' "></div>
+                        {{ tv.vote_average }}
+                    </li>
                 </ul>
             </div>
         </div>
@@ -76,11 +104,35 @@
 </template>
 
 <style lang="scss" scoped>
+    @use '../style/partials/variables' as *;
     .container{
         display: flex;
 
         div{
             flex-basis: 50%;
         }
+        li.rate-container{
+            display: inline-flex;
+            align-items: flex-end;
+
+            .star{
+                width:  $star-size;
+                height: $star-size;
+                clip-path: polygon(50% 0%, 64% 33%, 98% 35%, 72% 57%, 79% 91%, 50% 70%, 21% 91%, 28% 57%, 2% 35%, 37% 33%);
+                background: $star-active;
+                margin-right:.25rem;
+                
+                &.half{
+                    background: linear-gradient(90deg, $star-active 0%, $star-active 50%, $star-disabled 50%, $star-disabled 100%);
+                }
+                &.disabled{
+                    background: $star-disabled;
+                }
+            }
+
+        }
+
+        
+
     }
 </style>
