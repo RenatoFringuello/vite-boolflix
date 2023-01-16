@@ -26,20 +26,19 @@
 
 <template>
     <header>
-            <!-- <input  @keyup.enter="sendResearch('search/movie', this.movieToSearch)" placeholder="type a movie..." type="text" v-model.trim="movieToSearch">
-            <button @click="sendResearch('search/movie', this.movieToSearch)">Search</button>
-            <input  @keyup.enter="sendResearch('search/tv', this.tvToSearch)" placeholder="type a tv sereis..." type="text" v-model.trim="tvToSearch">
-            <button @click="sendResearch('search/tv', this.tvToSearch)">Search</button> -->
-        <div class="container">
-            <nav class="left">
+        <div class="container d-flex">
+            <nav class="left d-flex">
                 <a href="" class="logo"></a>
-                <ul>
+                <ul class="d-flex">
                     <li v-for="link,i in links" :class="activeIndex === i? 'active': ''">{{link}}</li>
                 </ul>
             </nav>
-            <nav class="right">
-                <ul>
-                    <li><img src="../assets/searchIcon.svg"></li>
+            <nav class="right d-flex">
+                <ul class="d-flex">
+                    <li class="search-container d-flex">
+                        <img src="../assets/searchIcon.svg">
+                        <input  @keyup.enter="sendResearch('search/movie', this.movieToSearch)" placeholder="titoli, persone, generi" type="text" v-model.trim="movieToSearch">
+                    </li>
                     <li>Bambini</li>
                     <li><img src="../assets/bellIcon.svg"></li>
                     <li class="profile-container">
@@ -55,7 +54,6 @@
 <style lang="scss" scoped>
     @use '../style/partials/variables' as *;
 
-
     header{
         position: fixed;
         width: 100%;
@@ -69,14 +67,13 @@
         }
 
         .container{
-            display: flex;
             justify-content: space-between;
 
+            //.left & .right
             nav{
-                display: flex;
                 align-items: center;
 
-                a{
+                a.logo{
                     margin-right: 5px;
                     line-height: 1;
                     &.logo::before{
@@ -87,44 +84,70 @@
                     }
                 }
                 ul{
-                    display: flex;
                     align-items: center;
                     margin-left: 18px;
                     li{
                         cursor: pointer;
-                        line-height: 0;
                         margin-left: 1.5rem;
-                        &.active{
-                            font-weight: 500;
+                    }
+                }
+                &.left ul li{
+                    //nav.left
+                    &.active{
+                        font-weight: 500;
+                    }
+                    &:not(.active){
+                        transition: all .5s;
+                        opacity: 1;
+                        &:hover{
+                            opacity: .7;
                         }
-                        &:not(.active){
-                            transition: all .5s;
-                            opacity: 1;
-                            &:hover{
-                                opacity: .7;
-                            }
-                        }
-                        
-                        &.profile-container{
-                            display: inline-flex;
-                            align-items: center;
-                            img.profile-pic{
-                                width: 32px;
-                                height: 32px;
-                                border-radius: 5px;
-                            }
-                            div.triangle{
-                                width: 10px;
-                                height: 10px;
-                                margin-left: 10px;
-                                clip-path: polygon(50% 100%, 0 50%, 100% 50%);
-                                background-color: #fff;
-                                transition: all .25s;
-                            }
+                    }
+                }
+                &.right ul li{
+                    //nav.right
+                    //containers
+                    &.search-container{
+                        min-width: 200px;
+                        width: 100%;
+                        background-color: #0009;
+                        border: 1px solid #fff;
+                        padding: .3rem;
+                        align-items: center;
 
-                            &:hover div.triangle{
-                                transform: rotate(180deg);
+                        input,
+                        input:focus{
+                            width: 100%;
+                            background-color: #0000;
+                            border: 0;
+                            outline: 0;
+                            color: inherit;
+                            margin-left: 1rem;
+                            &::placeholder{
+                                color: #fffe;
+                                font-weight: 200;
                             }
+                        }
+                    }
+                    &.profile-container{
+                        display: inline-flex;
+                        align-items: center;
+                        img.profile-pic{
+                            width:  $profile-pic-size;
+                            height: $profile-pic-size;
+                            border-radius: 5px;
+                        }
+                        div.triangle{
+                            width: 10px;
+                            height: 10px;
+                            margin-left: 10px;
+                            clip-path: polygon(50% 100%, 0 50%, 100% 50%);
+                            background-color: #fff;
+                            transition: all .25s;
+                        }
+
+                        &:hover div.triangle{
+                            transform: rotate(180deg);
                         }
                     }
                 }
