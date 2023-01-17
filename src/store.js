@@ -10,8 +10,8 @@ export const store = reactive({
     //configuration
     configData:[],
     //search/movie|tv
-    filmData : {data:[],isLoaded:false,isImgLoaded:false, currentPage:1},
-    tvData : {data:[],isLoaded:false,isImgLoaded:false, currentPage:1},
+    filmData : {data:[],isLoaded:false, currentPage:1},
+    tvData : {data:[],isLoaded:false, currentPage:1},
     
     /**
      * 
@@ -45,7 +45,6 @@ export const store = reactive({
             const requestObj = {
                 data: this.dataRaw.results,
                 isLoaded : true,
-                isImgLoaded: this.filmData.isImgLoaded,
                 currentPage : this.dataRaw.page
             };
             //do someting based on what is location
