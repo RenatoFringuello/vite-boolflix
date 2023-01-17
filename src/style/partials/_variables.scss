@@ -6,7 +6,15 @@ $star-size : 30px;
 //profile-pic
 $profile-pic-size: 32px;
 
+//sizes
+$card-width-2:185px;
+$card-height-2:280px;
+$card-width-3:342px;
+$card-height-3:513px;
+
 //netflix
+$netflix-red: #e50914;
+$netflix-bg: #141414;
     //font
         //netflix icon
         @font-face {
@@ -58,6 +66,3 @@ $profile-pic-size: 32px;
             font-weight: 900;
             src: url(https://assets.nflxext.com/ffe/siteui/fonts/netflix-sans/v3/NetflixSans_W_Blk.woff2) format("woff2"), url(https://assets.nflxext.com/ffe/siteui/fonts/netflix-sans/v3/NetflixSans_W_Blk.woff) format("woff")
         }
-
-$netflix-red: #e50914;
-$netflix-bg: #141414;
