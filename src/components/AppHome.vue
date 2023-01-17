@@ -68,6 +68,31 @@
                     vote --;
                 }
                 return stars;
+            },
+            getSliderIndex(sliderIndex){
+                return (sliderIndex === 0)?this.sliderMovieIndex: this.sliderTvIndex;
+            },
+            isFlipped(sliderIndex, index){
+                if(sliderIndex === 0){
+                    return this.isMovieFlipped === index;
+                } 
+                else{
+                    return this.isTvFlipped === index;
+                }
+            },
+            setFlippedIndex(sliderIndex,index){
+                if(sliderIndex === 0){
+                    this.isMovieFlipped = index;
+                } 
+                else{
+                    this.isTvFlipped = index ;
+                }
+                console.log(this.isMovieFlipped,this.isTvFlipped)
+            }
+        },
+        computed:{
+            getAllResults(){
+                return [this.store.filmData.data, this.store.tvData.data];
             }
         },
         created() {
@@ -86,72 +111,50 @@
                 <p>{{ store.filmData.data[0].overview }}</p>
             </section>
         </div>
-        <!-- movies -->
-        <section class="first slider-container">
-            <h1 class="container">Film</h1>
+
+        <section class="slider-container" 
+                 v-for="results,j in getAllResults"
+                 :class="j===0 ? 'first' : ''">
+            <!-- title -->
+            <h1 class="container">{{j===0 ? 'Film': 'Serie Tv'}}</h1>
+            <!-- all cards -->
             <div class="cards-container d-flex">
-                <div v-for="film,i in store.filmData.data" class="scene"
-                     v-show="Math.floor(i / 4) === sliderMovieIndex"
-                     @mouseenter="isMovieFlipped = i" 
-                     @mouseleave="isMovieFlipped = -1">
-                    <div class="card" :class="isMovieFlipped === i ? 'isFlipped': ''">
+                
+                <!-- single card -->
+                <div v-for="result,i in results" class="scene"
+                     v-show="Math.floor(i / 4) === getSliderIndex(j)"
+                     @mouseenter="setFlippedIndex(j,i)" 
+                     @mouseleave="setFlippedIndex(j,-1)">
+                    
+                     <!-- faces container -->
+                    <div class="card" :class="isFlipped(j,i) ? 'isFlipped': ''">
+                        
+                        <!-- front -->
                         <div class="card-face card-front">
-                            <img :src="store.configData.images.secure_base_url + store.configData.images.poster_sizes[3] + film.poster_path"
-                            :alt="film.title  + '\'s poster'">
+                            <img :src="store.configData.images.secure_base_url + store.configData.images.poster_sizes[3] + result.poster_path"
+                                 :alt="(result.title)?result.title : result.name  + '\'s poster'">
                         </div>
+                        <!-- back -->
                         <div class="card-face card-back">
                             <ul class="d-flex">
-                                <li><h4>{{i}}TITOLO:</h4>{{ film.title }}</li>
-                                <li><h4>TITOLO ORIGINALE:</h4> {{ film.original_title }}</li>
-                                <li class="overview"><h4>OVERVIEW:</h4> {{ film.overview }}</li>
-                                <!-- <li><img :src="`https://flagsapi.com/${this.getFlagCode(film.original_language)}/flat/32.png`"
-                                    :alt="this.getFlagCode(film.original_language)">
+                                <li><h4>TITOLO:</h4>{{ (result.title)?result.title : result.name }}</li>
+                                <li><h4>TITOLO ORIGINALE:</h4> {{ (result.original_title)?result.original_title : result.original_name }}</li>
+                                <li class="overview"><h4>OVERVIEW:</h4> {{ result.overview }}</li>
+                                <!-- <li><img :src="`https://flagsapi.com/${this.getFlagCode(result.original_language)}/flat/32.png`"
+                                    :alt="this.getFlagCode(result.original_language)">
                                 </li> -->
                                 <li class="rate-container">
                                     <h4>VOTO:</h4> 
-                                    <div v-for="star in getStars(film.vote_average)" class="star" :class= "(star=== 0.5)?'half':(star === 0)?'disabled':'' "></div>
-                                    {{ film.vote_average }}
+                                    <div v-for="star in getStars(result.vote_average)" 
+                                         class="star" :class= "(star=== 0.5)?'half':(star === 0)?'disabled':'' "></div>
+                                    {{ result.vote_average }}
                                 </li>
                             </ul>
                         </div>
                     </div>
                 </div>
-                <button class="btn btn-prev" @click="changeSlide(0,-1, store.filmData.data.length)"></button>
-                <button class="btn btn-next" @click="changeSlide(0, 1, store.filmData.data.length)"></button>
-            </div>
-        </section>
-        <!-- tv series -->
-        <section class="slider-container">
-            <h1 class="container">Serie TV</h1>
-            <div class="cards-container d-flex">
-                <div v-for="tv,i in store.tvData.data" class="scene" 
-                     v-show="Math.floor(i / 4) === sliderTvIndex"
-                     @mouseenter="isTvFlipped = i" 
-                     @mouseleave="isTvFlipped = -1">
-                    <div class="card" :class="isTvFlipped === i ? 'isFlipped': ''" >
-                        <div class="card-face card-front">
-                            <img :src="store.configData.images.secure_base_url + store.configData.images.poster_sizes[3] + tv.poster_path"
-                            :alt="tv.name  + '\'s poster'">
-                        </div>
-                        <div class="card-face card-back">
-                            <ul class="d-flex">
-                                <li><h4>{{i}}TITOLO:</h4>{{ tv.name }}</li>
-                                <li><h4>TITOLO ORIGINALE:</h4> {{ tv.original_name }}</li>
-                                <li class="overview"><h4>OVERVIEW:</h4> {{ tv.overview }}</li>
-                                <!-- <li><img :src="`https://flagsapi.com/${this.getFlagCode(tv.original_language)}/flat/32.png`"
-                                    :alt="this.getFlagCode(tv.original_language)">
-                                </li> -->
-                                <li class="rate-container">
-                                    <h4>VOTO:</h4> 
-                                    <div v-for="star in getStars(tv.vote_average)" class="star" :class= "(star=== 0.5)?'half':(star === 0)?'disabled':'' "></div>
-                                    {{ tv.vote_average }}
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <button class="btn btn-prev" @click="changeSlide(1,-1, store.filmData.data.length)"></button>
-                <button class="btn btn-next" @click="changeSlide(1, 1, store.filmData.data.length)"></button>
+                <button class="btn btn-next" @click="changeSlide(j, 1, results.length)"></button>
+                <button class="btn btn-prev" @click="changeSlide(j,-1, results.length)"></button>
             </div>
         </section>
     </main>
@@ -181,6 +184,7 @@
                 h1{
                     font-size: 3rem;
                     text-shadow: 3px 5px 0px $netflix-red;
+                    margin-bottom: 1rem;
                 }
                 p{
                     font-size: 1.5rem;
@@ -190,7 +194,7 @@
         section {
             &.first{
                 position: relative;
-                background-image: linear-gradient(#0000,#141414b3 30%);
+                background-image: linear-gradient(#0000,#141414b3 15%);
                 z-index: 2;
             }
             &.slider-container{
@@ -260,6 +264,7 @@
                             }
                         }
                     }
+
                 }
 
                 button{
