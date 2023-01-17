@@ -116,9 +116,9 @@
                         </div>
                     </div>
                 </div>
+                <button class="btn btn-prev" @click="changeSlide(0,-1, store.filmData.data.length)"></button>
+                <button class="btn btn-next" @click="changeSlide(0, 1, store.filmData.data.length)"></button>
             </div>
-            <button class="btn btn-prev" @click="changeSlide(0,-1, store.filmData.data.length)"></button>
-            <button class="btn btn-next" @click="changeSlide(0, 1, store.filmData.data.length)"></button>
         </section>
         <!-- tv series -->
         <section class="slider-container">
@@ -150,9 +150,9 @@
                         </div>
                     </div>
                 </div>
+                <button class="btn btn-prev" @click="changeSlide(1,-1, store.filmData.data.length)"></button>
+                <button class="btn btn-next" @click="changeSlide(1, 1, store.filmData.data.length)"></button>
             </div>
-            <button class="btn btn-prev" @click="changeSlide(1,-1, store.filmData.data.length)"></button>
-            <button class="btn btn-next" @click="changeSlide(1, 1, store.filmData.data.length)"></button>
         </section>
     </main>
 </template>
@@ -194,7 +194,6 @@
                 z-index: 2;
             }
             &.slider-container{
-                position: relative;
                 
                 h1{
                     font-size: 2.5rem;
@@ -202,11 +201,12 @@
                 }
                 //slider
                 .cards-container{
-                    padding:0 .5rem;
+                    position: relative;
+                    justify-content: space-between;
                     //flip-card
                     .scene{
                         perspective: 600px;
-                        margin:0 .5rem;
+                        // margin:0 .5rem;
                         
                         .card{
                             width: $card-width-3;
