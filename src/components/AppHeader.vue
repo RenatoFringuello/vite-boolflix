@@ -26,11 +26,6 @@
                 this.isSearchOpen = true;
                 this.$refs.searchBar.focus();
             }
-        },
-        created(){
-            //just to get something
-            this.sendResearch('search/movie', 'A');
-            this.sendResearch('search/tv', 'A');
         }
     }
 </script>
@@ -41,7 +36,9 @@
             <nav class="left d-flex">
                 <a href="" class="logo"></a>
                 <ul class="d-flex">
-                    <li v-for="link,i in links" :class="activeIndex === i? 'active': ''">{{link}}</li>
+                    <li v-for="(link,i) in links" 
+                        :class="activeIndex === i? 'active': ''"
+                        @click="$emit('openPage', i)">{{link}}</li>
                 </ul>
             </nav>
             <nav class="right d-flex">

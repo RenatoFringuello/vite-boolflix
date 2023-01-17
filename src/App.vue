@@ -9,18 +9,26 @@
     },
     data() {
       return {
-
+        activePage : 0,
       }
     },
     methods:{
-      
+        openPage(index){
+          this.activePage = index;
+        }
     }
   }
 </script>
 
 <template>
-  <AppHedaer />
-  <AppHome />
+  <div>
+    <AppHedaer @openPage="openPage"/>
+    <main>
+      <AppHome v-if="this.activePage == 0" />
+      <h1 v-else-if="this.activePage == 1">1</h1>
+      <h1 v-else="this.activePage == 2">2</h1>
+    </main>
+  </div>
 </template>
 
 <style lang="scss">
