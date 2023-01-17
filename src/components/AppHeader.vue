@@ -9,6 +9,8 @@
 
                 activeIndex:0,
                 links:['Home','Serie TV', 'Film', 'Nuovi e popolari', 'La mia lista', 'Sfoglia per lingua'],
+
+                isSearchOpen:false,
             }
         },
         methods: {
@@ -35,9 +37,9 @@
             </nav>
             <nav class="right d-flex">
                 <ul class="d-flex">
-                    <li class="search-container d-flex">
+                    <li @click="isSearchOpen = true" class="search-container d-flex" :class="isSearchOpen?'open':''">
                         <img src="../assets/searchIcon.svg">
-                        <input  @keyup.enter="sendResearch('search/movie', this.movieToSearch)" placeholder="titoli, persone, generi" type="text" v-model.trim="movieToSearch">
+                        <input :class="!isSearchOpen?'d-none':''" @keyup.enter="sendResearch('search/movie', this.movieToSearch)" placeholder="titoli, persone, generi" type="text" v-model.trim="movieToSearch">
                     </li>
                     <li>Bambini</li>
                     <li><img src="../assets/bellIcon.svg"></li>
@@ -61,6 +63,7 @@
         padding: 1.7rem 0;
         font-weight: 100;
         font-size: .9rem;
+        z-index: 2;
         
         a{
             text-decoration: none;
@@ -108,12 +111,15 @@
                     //nav.right
                     //containers
                     &.search-container{
-                        min-width: 200px;
-                        width: 100%;
-                        background-color: #0009;
-                        border: 1px solid #fff;
-                        padding: .3rem;
-                        align-items: center;
+                        &.open{
+
+                            min-width: 200px;
+                            width: 100%;
+                            background-color: #0009;
+                            border: 1px solid #fff;
+                            padding: .3rem;
+                            align-items: center;
+                        }
 
                         input,
                         input:focus{
