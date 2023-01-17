@@ -4,7 +4,7 @@
         data() {
             return {
                 store,
-                movieToSearch:'',
+                searchText:'',
                 tvToSearch:'',
 
                 activeIndex:0,
@@ -14,14 +14,22 @@
             }
         },
         methods: {
-            sendResearch(location, searchText){
-                searchText = (searchText === '')?'A':searchText;
-                this.store.getData(location, searchText);
+            sendResearch(location, query){
+                this.store.getData(location, query);
             },
+            searchAll(){
+                this.sendResearch('search/movie', this.searchText);
+                this.sendResearch('search/tv', this.searchText);
+            },
+            openSearchBar(){
+                this.isSearchOpen = true;
+                this.$refs.searchBar.focus();
+            }
         },
         created(){
-            // on created carica i best
-            this.sendResearch('search/movie', 'a');
+            //just to get something
+            this.sendResearch('search/movie', 'A');
+            this.sendResearch('search/tv', 'A');
         }
     }
 </script>
@@ -37,9 +45,12 @@
             </nav>
             <nav class="right d-flex">
                 <ul class="d-flex">
-                    <li @click="isSearchOpen = true" class="search-container d-flex" :class="isSearchOpen?'open':''">
+                    <li @click="openSearchBar()" class="search-container d-flex" :class="isSearchOpen?'open':''">
                         <img src="../assets/searchIcon.svg">
-                        <input :class="!isSearchOpen?'d-none':''" @keyup.enter="sendResearch('search/movie', this.movieToSearch)" placeholder="titoli, persone, generi" type="text" v-model.trim="movieToSearch">
+                        <input  ref="searchBar"
+                                @keyup.enter="searchAll()" placeholder="titoli, persone, generi" type="text" 
+                                @blur="isSearchOpen = false"
+                                v-model.trim="searchText">
                     </li>
                     <li>Bambini</li>
                     <li><img src="../assets/bellIcon.svg"></li>
@@ -110,20 +121,24 @@
                 &.right ul li{
                     //nav.right
                     //containers
+                    padding: .3rem;
                     &.search-container{
+                        width: 35px;
+                        
                         &.open{
-
-                            min-width: 200px;
                             width: 100%;
                             background-color: #0009;
                             border: 1px solid #fff;
-                            padding: .3rem;
                             align-items: center;
+                            
+                            input,
+                            input:focus{
+                                width: 100%;
+                            }
                         }
-
                         input,
                         input:focus{
-                            width: 100%;
+                            width: 0;
                             background-color: #0000;
                             border: 0;
                             outline: 0;
