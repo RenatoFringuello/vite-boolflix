@@ -9,6 +9,7 @@ export const store = reactive({
     dataRaw : [],
     //configuration
     configData:[],
+    configLoaded:false,
     //search/movie|tv
     filmData : {data:[],isLoaded:false, currentPage:1},
     tvData : {data:[],isLoaded:false, currentPage:1},
@@ -58,6 +59,7 @@ export const store = reactive({
                 case 'configuration':
                     //get the configuration for the images base_url & sizes
                     this.configData = this.dataRaw;
+                    this.configLoaded = true;
                     break;
             }
         })
