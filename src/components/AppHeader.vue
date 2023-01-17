@@ -15,6 +15,7 @@
         },
         methods: {
             sendResearch(location, query){
+                query = (query==='')?'A':query;
                 this.store.getData(location, query);
             },
             searchAll(){
