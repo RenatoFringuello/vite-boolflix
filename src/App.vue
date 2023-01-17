@@ -1,10 +1,10 @@
 <script>
   import AppHedaer from './components/AppHeader.vue';
-  import AppMain from './components/AppMain.vue';
+  import AppHome from './components/AppHome.vue';
 
   export default{
     components:{
-      AppMain,
+      AppHome,
       AppHedaer
     },
     data() {
@@ -20,7 +20,7 @@
 
 <template>
   <AppHedaer />
-  <AppMain />
+  <AppHome />
 </template>
 
 <style lang="scss">
